@@ -3,6 +3,7 @@ import { JWT_SECRET, SALT_ROUND } from "../var.js";
 import userModel from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import { errorHandler } from "../util/error.js";
+import { signinSchema } from "../validation/auth.validation.js";
 
 export async function signup (req, res, next) {
     try{
@@ -24,10 +25,11 @@ export async function signup (req, res, next) {
 export async function signin (req, res, next) {
     try{
         const {email, password} = req.body;
+        const isvalidated = signinSchema.safeParse(req.body);
+        if (!isvalidated.success) throw errorHandler(400, isvalidated.error.issues[0].message);
         const user = await userModel.findOne({email});
         if (!user) next(errorHandler(404, "User not found"));
         const isPasswordMatch = bcrypt.compareSync(password, user.password);
-        console.log(user, isPasswordMatch);
         if (isPasswordMatch == false) throw errorHandler(401, "Invalid credentials");
         const token = jwt.sign({userId : user._id}, JWT_SECRET);
         res.cookie("access_token", token, {
