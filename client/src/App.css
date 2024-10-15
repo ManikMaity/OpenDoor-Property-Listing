@@ -1,0 +1,19 @@
+.screenHeight {
+    height: calc(100vh - 4rem);
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    background-color: rgba(53, 53, 53, 0);
+
+}
+
+::-webkit-scrollbar-track{
+    background-color: rgba(56, 56, 56, 0);
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: #3b3b3b69;
+    height: 10px;
+    border-radius: 10px;
+}

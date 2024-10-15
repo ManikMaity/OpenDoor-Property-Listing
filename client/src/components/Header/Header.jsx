@@ -30,7 +30,7 @@ const Header = () => {
   };
 
   return (
-    <nav className="bg-slate-200 dark:bg-gray-800 shadow-md w-full">
+    <nav className="bg-slate-200 dark:bg-gray-800 max-h-16 shadow-md w-full sticky top-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo Section */}
@@ -59,7 +59,7 @@ const Header = () => {
             >
               About
             </Link>
-            <Link to={"/sign-in"}
+            <Link to={"/signin"}
               className="text-gray-900 dark:text-white hover:text-blue-500"
             >
               Sign In
