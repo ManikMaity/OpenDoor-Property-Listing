@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { SALT_ROUND } from "../var.js";
 import userModel from "../models/user.model.js";
 
-export async function signup (req, res) {
+export async function signup (req, res, next) {
     try{
         const { username, email, password } = req.body;
         const encryptedPassword = bcrypt.hashSync(`${password}`, SALT_ROUND)
@@ -15,7 +15,6 @@ export async function signup (req, res) {
 
     }
     catch(err){
-        console.log(err)
-        res.status(500).json({msg : err.message})
+       next(err)
     }
 }
