@@ -23,7 +23,7 @@ const Signup = () => {
   } = useUserSignup();
 
   return (
-    <div className="flex justify-center screenHeight bg-gray-100 dark:bg-gray-900">
+    <form onSubmit={handleSignup} className="flex justify-center screenHeight bg-gray-100 dark:bg-gray-900">
       <div className="w-full max-w-md p-8 space-y-6 rounded-lg">
         <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white">
           Sign Up
@@ -108,7 +108,7 @@ const Signup = () => {
           </Link>
         </p>
       </div>
-    </div>
+    </form>
   );
 };
 

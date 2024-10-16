@@ -20,7 +20,7 @@ const Signin = () => {
   } = useUserSignin();
 
   return (
-    <div className="flex justify-center screenHeight bg-gray-100 dark:bg-gray-900">
+    <form onSubmit={handleSignin} className="flex justify-center screenHeight bg-gray-100 dark:bg-gray-900">
       <div className="w-full max-w-md p-8 space-y-6">
         <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white">
           Sign In
@@ -65,6 +65,7 @@ const Signin = () => {
 
         {/* Sign In Button */}
         <button
+          type="submit"
           className="w-full px-4 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onClick={handleSignin}
         >
@@ -88,7 +89,7 @@ const Signin = () => {
           </Link>
         </p>
       </div>
-    </div>
+    </form>
   );
 };
 

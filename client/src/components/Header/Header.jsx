@@ -1,38 +1,23 @@
-import { useEffect, useState } from "react";
+import {  } from "react";
 import { FiSun, FiMoon, FiMenu } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import useUserStore from "../../store/userStore";
 import userImage from "../../assets/user.jpg";
 import { checkObjectEmpty } from "../../utils/utilFunctions";
+import useHeader from "../../hooks/useHeader";
 
 const Header = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showUserDialog, setShowUserDialog] = useState(false);
-  const { user, resetUser } = useUserStore();
-
-  useEffect(() => {
-    const theme = localStorage.getItem("theme");
-    if (theme === "dark") {
-      setIsDarkMode(true);
-      document.documentElement.classList.add("dark");
-    } else {
-      setIsDarkMode(false);
-      document.documentElement.classList.remove("dark");
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    if (isDarkMode) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    }
-    setIsDarkMode(!isDarkMode);
-  };
+ 
+  const {
+    isDarkMode,
+    toggleTheme,
+    isMenuOpen,
+    setIsMenuOpen,
+    showUserDialog,
+    setShowUserDialog,
+    user,
+    resetUser
+  } = useHeader();
 
   return (
     <nav className="bg-slate-200 dark:bg-gray-800 max-h-16 shadow-md w-full sticky top-0">
