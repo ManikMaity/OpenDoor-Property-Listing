@@ -2,7 +2,7 @@ import {} from "react";
 import { FaGoogle } from "react-icons/fa";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link } from "react-router-dom";
-import SmallCircleLoader from "../components/Header/Loaders/SmallCircleLoader";
+import SmallCircleLoader from "../components/Loaders/SmallCircleLoader";
 import useUserSignin from "../hooks/useUserSignin";
 
 const Signin = () => {

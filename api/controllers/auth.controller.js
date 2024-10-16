@@ -32,9 +32,10 @@ export async function signin (req, res, next) {
         const isPasswordMatch = bcrypt.compareSync(password, user.password);
         if (isPasswordMatch == false) throw errorHandler(401, "Invalid credentials");
         const token = jwt.sign({userId : user._id}, JWT_SECRET);
+        const {password : pass, ...userData} = user._doc;
         res.cookie("access_token", token, {
             httpOnly : true
-        }).status(200).json({msg : "Login success!"});
+        }).status(200).json(userData);
     }
     catch(err){
        next(err)

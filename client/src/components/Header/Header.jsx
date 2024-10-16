@@ -2,10 +2,15 @@ import { useEffect, useState } from "react";
 import { FiSun, FiMoon, FiMenu } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useUserStore from "../../store/userStore";
+import userImage from "../../assets/user.jpg";
+import { checkObjectEmpty } from "../../utils/utilFunctions";
 
 const Header = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showUserDialog, setShowUserDialog] = useState(false);
+  const { user, resetUser } = useUserStore();
 
   useEffect(() => {
     const theme = localStorage.getItem("theme");
@@ -48,23 +53,50 @@ const Header = () => {
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-6">
-            <Link to={"/"}
+          <div className="hidden relative md:flex items-center space-x-6">
+            <Link
+              to={"/"}
               className="text-gray-900 dark:text-white hover:text-blue-500"
             >
               Home
             </Link>
-            <Link to={"/about"}
+            <Link
+              to={"/about"}
               className="text-gray-900 dark:text-white hover:text-blue-500"
             >
               About
             </Link>
-            <Link to={"/signin"}
-              className="text-gray-900 dark:text-white hover:text-blue-500"
-            >
-              Sign In
-            </Link>
-            <FaUserCircle className="text-3xl text-gray-900 dark:text-white cursor-pointer" />
+
+            {checkObjectEmpty(user) ? (
+              <Link
+                to={"/signin"}
+                className="text-gray-900 dark:text-white hover:text-blue-500"
+              >
+                Sign In
+              </Link>
+            ) : (
+              <div>
+                <a
+                  onClick={() => setShowUserDialog(!showUserDialog)}
+                  className="cursor-pointer"
+                >
+                  <div className="h-full w-10 rounded-full overflow-hidden hover:outline outline-[#0000004f]">
+                    <img src={userImage} alt="" />
+                  </div>
+                </a>
+                {showUserDialog && (
+                  <div className="absolute right-8 w-52 top-12 drop-shadow-md  dark:text-white bg-slate-300 dark:bg-slate-800 flex flex-col rounded-md gap-2 p-2">
+                    <a className="px-2 grid place-items-center py-1 cursor-pointer  rounded-lg w-full dark:hover:bg-slate-600 hover:bg-slate-200">
+                      Account
+                    </a>
+                    <a onClick={() => resetUser()} className="px-2 grid place-items-center py-1 cursor-pointer  rounded-lg w-full hover:bg-opacity-50 bg-red-400">
+                      Sign Out
+                    </a>
+                  </div>
+                )}
+              </div>
+            )}
+
             <button onClick={toggleTheme} className="focus:outline-none">
               {isDarkMode ? (
                 <FiSun className="text-2xl text-yellow-500" />
@@ -89,24 +121,26 @@ const Header = () => {
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="space-y-2 px-2 pt-2 pb-3 sm:px-3">
-              <a
-                href="#home"
+              <Link
+                to="home"
                 className="block text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-2 rounded-md"
               >
                 Home
-              </a>
-              <a
-                href="#about"
+              </Link>
+              <Link
+                to="about"
                 className="block text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-2 rounded-md"
               >
                 About
-              </a>
-              <a
-                href="#signin"
+              </Link>
+              <Link
+                to="signin"
                 className="block text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-2 rounded-md"
               >
                 Sign In
-              </a>
+              </Link>
+
+
               <div className="flex items-center justify-between px-3 py-2">
                 <FaUserCircle className="text-3xl text-gray-900 dark:text-white cursor-pointer" />
                 <button onClick={toggleTheme} className="focus:outline-none">

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useUserStore from "../store/userStore";
 
 function useUserSignin() {
+  const {setUser} = useUserStore()
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -44,6 +46,7 @@ function useUserSignin() {
       setIsError(true);
     } else {
       resetAllData();
+      setUser(result)      
       navigator("/");
     }
     setIsLoading(false);
