@@ -1,9 +1,9 @@
 import {} from "react";
-import { FaGoogle } from "react-icons/fa";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link } from "react-router-dom";
 import SmallCircleLoader from "../components/Loaders/SmallCircleLoader";
 import useUserSignin from "../hooks/useUserSignin";
+import OAuthBtn from "../components/Buttons/OAuthBtn";
 
 const Signin = () => {
   const {
@@ -20,8 +20,11 @@ const Signin = () => {
   } = useUserSignin();
 
   return (
-    <form onSubmit={handleSignin} className="flex justify-center screenHeight bg-gray-100 dark:bg-gray-900">
-      <div className="w-full max-w-md p-8 space-y-6">
+<div className="flex flex-col justify-center items-center screenHeight bg-gray-100 dark:bg-gray-900">
+      <form
+        onSubmit={handleSignin}
+        className="w-full max-w-md p-8 space-y-6"
+      >
         <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white">
           Sign In
         </h2>
@@ -54,6 +57,7 @@ const Signin = () => {
               className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
             />
             <button
+              type="button"
               className="flex items-center justify-center px-4 py-2 mt-2 text-gray-900 bg-white border-gray-300 rounded-lg hover:bg-gray-100  dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:bg-gray-600"
               onClick={handlePasswordShow}
             >
@@ -65,31 +69,32 @@ const Signin = () => {
 
         {/* Sign In Button */}
         <button
-          type="submit"
           className="w-full px-4 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onClick={handleSignin}
         >
           {isLoading ? <SmallCircleLoader /> : "Sign In"}
         </button>
 
-        {/* Continue with Google Button */}
-        <button className="w-full flex items-center justify-center px-4 py-2 mt-2 text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:bg-gray-600">
-          <FaGoogle className="mr-2" />
-          Continue with Google
-        </button>
+       
+      </form>
+      <div className="w-full max-w-md p-8 pt-0 space-y-6">
 
-        {/* Sign Up Link */}
-        <p className="text-center text-sm text-gray-600 dark:text-gray-300 mt-4">
-          Don't have an account?{" "}
-          <Link
-            to={"/signup"}
-            className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-500"
-          >
-            Sign Up
-          </Link>
-        </p>
-      </div>
-    </form>
+          {/* Continue with Google Button */}
+          <OAuthBtn />
+
+          {/* Sign Up Link */}
+          <p className="text-center text-sm text-gray-600 dark:text-gray-300 mt-4">
+            Don't have an account?{" "}
+            <Link
+              to={"/signup"}
+              className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-500"
+            >
+              Sign Up
+            </Link>
+          </p>
+        </div>
+    </div>
+    
   );
 };
 

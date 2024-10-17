@@ -7,6 +7,7 @@ import { checkObjectEmpty } from "../../utils/utilFunctions";
 import useHeader from "../../hooks/useHeader";
 
 const Header = () => {
+
  
   const {
     isDarkMode,
@@ -65,8 +66,8 @@ const Header = () => {
                   onClick={() => setShowUserDialog(!showUserDialog)}
                   className="cursor-pointer"
                 >
-                  <div className="h-full w-10 rounded-full overflow-hidden hover:outline outline-[#0000004f]">
-                    <img src={userImage} alt="" />
+                  <div className="h-full bg-gray-800 w-10 rounded-full overflow-hidden hover:outline outline-[#0000004f]">
+                    <img src={user?.profileImage || userImage} alt="" />
                   </div>
                 </a>
                 {showUserDialog && (

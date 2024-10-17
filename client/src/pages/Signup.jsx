@@ -1,12 +1,11 @@
-import { } from "react";
-import { FaGoogle } from "react-icons/fa";
+import {} from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import SmallCircleLoader from "../components/Loaders/SmallCircleLoader";
 import useUserSignup from "../hooks/useUserSignup";
+import OAuthBtn from "../components/Buttons/OAuthBtn";
 
 const Signup = () => {
-
   const {
     username,
     setUsername,
@@ -23,8 +22,11 @@ const Signup = () => {
   } = useUserSignup();
 
   return (
-    <form onSubmit={handleSignup} className="flex justify-center screenHeight bg-gray-100 dark:bg-gray-900">
-      <div className="w-full max-w-md p-8 space-y-6 rounded-lg">
+    <div className="flex flex-col justify-center items-center screenHeight bg-gray-100 dark:bg-gray-900">
+      <form
+        onSubmit={handleSignup}
+        className="w-full max-w-md p-8 space-y-6"
+      >
         <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white">
           Sign Up
         </h2>
@@ -71,6 +73,7 @@ const Signup = () => {
               className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
             />
             <button
+            type="button"
               className="flex items-center justify-center px-4 py-2 mt-2 text-gray-900 bg-white border-gray-300 rounded-lg hover:bg-gray-100  dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:bg-gray-600"
               onClick={handlePasswordShow}
             >
@@ -78,37 +81,36 @@ const Signup = () => {
             </button>
           </div>
 
-        {isError && <p className="text-red-600 mt-2 text-sm">{error}</p>}
-
+          {isError && <p className="text-red-600 mt-2 text-sm">{error}</p>}
         </div>
-
 
         {/* Sign Up Button */}
         <button
+          type="submit"
           className="w-full px-4 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onClick={handleSignup}
         >
           {isLoading ? <SmallCircleLoader /> : "Sign Up"}
         </button>
+        
+      </form>
 
-        {/* Continue with Google Button */}
-        <button className="w-full flex items-center justify-center px-4 py-2 mt-2 text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:bg-gray-600">
-          <FaGoogle className="mr-2" />
-          Continue with Google
-        </button>
+      <div className="w-full max-w-md p-8 pt-0 space-y-6">
+          {/* Continue with Google Button */}
+          <OAuthBtn />
 
-        {/* Sign In Link */}
-        <p className="text-center text-sm text-gray-600 dark:text-gray-300 mt-4">
-          Have an account?{" "}
-          <Link
-            to="/signin"
-            className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-500"
-          >
-            Sign In
-          </Link>
-        </p>
-      </div>
-    </form>
+          {/* Sign In Link */}
+          <p className="text-center text-sm text-gray-600 dark:text-gray-300 mt-4">
+            Have an account?{" "}
+            <Link
+              to="/signin"
+              className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-500"
+            >
+              Sign In
+            </Link>
+          </p>
+        </div>
+    </div>
   );
 };
 
