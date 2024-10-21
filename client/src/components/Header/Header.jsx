@@ -67,14 +67,14 @@ const Header = () => {
                   className="cursor-pointer"
                 >
                   <div className="h-full bg-gray-800 w-10 rounded-full overflow-hidden hover:outline outline-[#0000004f]">
-                    <img src={user?.profileImage || userImage} alt="" />
+                    <img  referrerPolicy="no-referrer" className="w-full h-full bg-slate-mo grid place-content-center" src={user?.profileImage || userImage} alt="User" />
                   </div>
                 </a>
                 {showUserDialog && (
                   <div className="absolute right-8 w-52 top-12 drop-shadow-md  dark:text-white bg-slate-300 dark:bg-slate-800 flex flex-col rounded-md gap-2 p-2">
-                    <a className="px-2 grid place-items-center py-1 cursor-pointer  rounded-lg w-full dark:hover:bg-slate-600 hover:bg-slate-200">
-                      Account
-                    </a>
+                    <Link to={"/profile"} className="px-2 grid place-items-center py-1 cursor-pointer  rounded-lg w-full dark:hover:bg-slate-600 hover:bg-slate-200">
+                      Profile
+                    </Link>
                     <a onClick={() => resetUser()} className="px-2 grid place-items-center py-1 cursor-pointer  rounded-lg w-full hover:bg-opacity-50 bg-red-400">
                       Sign Out
                     </a>
