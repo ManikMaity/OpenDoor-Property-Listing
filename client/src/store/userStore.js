@@ -14,6 +14,7 @@ const useUserStore = create(persist((set) => {
                 user : {}
             }
         }),
+
     }
 }, {
     name : "user",
