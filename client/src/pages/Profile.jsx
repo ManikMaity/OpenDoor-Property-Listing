@@ -1,17 +1,27 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PrimaryBtn from "../components/Buttons/PrimaryBtn";
 import SecondaryBtn from "../components/Buttons/SecondaryBtn";
 import useUserStore from "../store/userStore";
+import { handleFileUpload } from "../utils/utilFunctions";
 
 const Profile = () => {
-
-
-  const {user} = useUserStore()
+  const { user } = useUserStore();
   console.log(user);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  
+  const [file, setFile] = useState(null);
+  const fileRef = useRef(null);
+
+  useEffect(() => {
+    if (file) {
+      handleFileUpload(file);
+    }
+  }, [file])
+
+
+
+
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col items-center py-12 px-4 md:px-6">
@@ -21,11 +31,23 @@ const Profile = () => {
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
             User Profile
           </h2>
-          <img
-            src="https://via.placeholder.com/150"
-            alt="User Profile"
-            className="w-32 h-32 mt-4 rounded-full border-4 border-gray-300 shadow-lg"
-          />
+          <div className="bg-gray-500 rounded-full relative">
+            <input
+              type="file"
+              name=""
+              className="absolute invisible"
+              accept="image/*"
+              onChange={(e) => setFile(e.target.files[0])}
+              id=""
+              ref={fileRef}
+            />
+            <img
+              onClick={() => fileRef.current.click()}
+              src={user?.profileImage || "https://via.placeholder.com/150"}
+              alt="User Profile"
+              className="w-32 h-32 rounded-full border-4 border-gray-300 shadow-lg"
+            />
+          </div>
         </div>
 
         {/* Form Section */}
@@ -88,9 +110,7 @@ const Profile = () => {
 
         {/* Footer Section */}
         <div className="mt-8 text-center flex justify-center">
-          <SecondaryBtn style={"max-w-md"}>
-            Show my listings
-          </SecondaryBtn>
+          <SecondaryBtn style={"max-w-md"}>Show my listings</SecondaryBtn>
         </div>
       </div>
     </div>
