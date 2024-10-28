@@ -32,8 +32,30 @@ const Profile = () => {
     setUser
   );
 
+  // delete
   const { handleUserDelete, isDeleting, isDeleteError, isDeleteSuccess } =
     useDeleteUser(user, setUser);
+
+  // signout
+  async function handleSignOut() {
+    try {
+      const sure = confirm("Are you sure you want to sign out?");
+      if (!sure) return;
+      const response = await fetch("/api/user/signout", {
+        method: "GET",
+        credentials: "include",
+      });
+      const result = await response.json();
+      console.log(result);
+      if (result.success === true) {
+        setUser({}); // clear user data from store
+        localStorage.removeItem("user"); // clear user data from local storage
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   useEffect(() => {
     if (file) {
@@ -179,7 +201,7 @@ const Profile = () => {
           >
             {isDeleting ? "Deleting" : "Delete Account"}
           </button>
-          <button className="text-red-600 hover:underline">Sign out</button>
+          <button className="text-red-600 hover:underline" onClick={handleSignOut}>Sign out</button>
         </div>
 
         {/* Footer Section */}
