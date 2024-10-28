@@ -4,9 +4,12 @@ import z from "zod";
 import { connectDB } from "./db.js";
 import userRouter from "./route/user.route.js";
 import authRouter from "./route/auth.route.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
+
 const PORT = process.env.PORT || 3000;
 
 await connectDB();
