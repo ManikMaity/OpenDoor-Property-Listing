@@ -17,11 +17,12 @@ export async function update(req, res) {
     }
 
     const updatedData = await updateUserById(reqId, req.body);
+    const {password, ...apiResponseData} = updatedData._doc;
 
     res.status(200).json({
       success: true,
       message: "User updated successfully",
-      data: updatedData,
+      data: apiResponseData,
     });
   } catch (err) {
     if (err.statusCode) {

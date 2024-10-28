@@ -5,10 +5,15 @@ import { connectDB } from "./db.js";
 import userRouter from "./route/user.route.js";
 import authRouter from "./route/auth.route.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+// app.use(cors({
+//     credentials: true,
+//     origin: "http://localhost:5173",
+//   }));
 
 const PORT = process.env.PORT || 3000;
 
