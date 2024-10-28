@@ -5,6 +5,8 @@ import useUserStore from "../store/userStore";
 import { clearFalsyObjValue, handleFileUpload } from "../utils/utilFunctions";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import useUpdateProfile from "../hooks/useUpdateProfile";
+import SmallCircleLoader from "../components/Loaders/SmallCircleLoader";
+import useDeleteUser from "../hooks/useDeleteUser";
 
 const Profile = () => {
   const { user, setUser } = useUserStore();
@@ -22,14 +24,16 @@ const Profile = () => {
   const [isUpdateDisabled, setIsUpdateDisabled] = useState(true);
 
   // update
-  const { 
+  const { isUpdating, isError, isSuccess, handleUpdate } = useUpdateProfile(
+    username,
+    password,
+    profileImageLink,
+    user,
+    setUser
+  );
 
-    isUpdating,
-    isError,
-    isSuccess,
-    handleUpdate
-
-   } = useUpdateProfile(username, password, profileImageLink, user, setUser);
+  const { handleUserDelete, isDeleting, isDeleteError, isDeleteSuccess } =
+    useDeleteUser(user, setUser);
 
   useEffect(() => {
     if (file) {
@@ -133,13 +137,11 @@ const Profile = () => {
               className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
             />
           </div>
-
-          
         </div>
 
         {/* Error Message */}
         <div>
-        {isUploadError && (
+          {isUploadError && (
             <p className="text-red-400 text-sm col-span-2">
               😵 Error Uploading Profile Picture
             </p>
@@ -149,20 +151,33 @@ const Profile = () => {
               😵 Error Updating Profile
             </p>
           )}
+          {isSuccess && (
+            <p className="text-green-400 text-sm col-span-2">
+              Profile Updated Successfully
+            </p>
+          )}
+          {isDeleteError && (
+            <p className="text-red-400 text-sm col-span-2">
+              😵 Error Deleting Account
+            </p>
+          )}
         </div>
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mt-6">
           <PrimaryBtn onBtnClick={handleUpdate} disabled={isUpdateDisabled}>
-            <p>{isUpdating ? "Updating..." : "Update Profile"}</p>
+            <p>{isUpdating ? <SmallCircleLoader /> : "Update Profile"}</p>
           </PrimaryBtn>
           <PrimaryBtn>Create New Listing</PrimaryBtn>
         </div>
 
         {/* Secondary Actions */}
         <div className="flex flex-col sm:flex-row justify-between items-center mt-6 space-y-2 sm:space-y-0">
-          <button className="text-red-600 hover:underline">
-            Delete Account
+          <button
+            className="text-red-600 hover:underline"
+            onClick={handleUserDelete}
+          >
+            {isDeleting ? "Deleting" : "Delete Account"}
           </button>
           <button className="text-red-600 hover:underline">Sign out</button>
         </div>

@@ -14,7 +14,6 @@ function useUpdateProfile(username, password, profileImageLink, user, setUser) {
           password,
           profileImage: profileImageLink,
         });
-        console.log(data);
         setIsUpdating(true);
         const response = await fetch(`/api/user/update/${user._id}`, {
           method: "POST",
