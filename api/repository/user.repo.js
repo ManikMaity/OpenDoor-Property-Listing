@@ -24,3 +24,8 @@ export async function updateUserById(id, data) {
   return user;
 
 }
+
+export async function deleteUserById(id) {
+  const user = await userModel.findByIdAndDelete(id);
+  return user;
+}

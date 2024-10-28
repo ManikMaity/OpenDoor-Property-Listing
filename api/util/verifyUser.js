@@ -4,7 +4,7 @@ import { findUserById } from "../repository/user.repo.js";
 
 export const verifyToken = async (req, res, next) => {
   try {
-    const token = req.cookies["access-token"];
+    const token = req.cookies["access-token"] || req.cookies.access_token;
     if (!token) {
       throw {
         statusCode: 401,
