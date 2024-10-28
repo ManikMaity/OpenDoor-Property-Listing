@@ -36,3 +36,14 @@ export function handleFileUpload(file, setFileUploading, setFileUploaded, setPro
     );
     
 }
+
+export function clearFalsyObjValue(obj) {
+    const keys = Object.keys(obj);
+    keys.forEach(key => {
+        if (!obj[key]){
+            delete obj[key];
+        }
+    })
+    return obj
+}
+
