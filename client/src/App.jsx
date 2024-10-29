@@ -7,6 +7,7 @@ import Signup from "./pages/Signup";
 import Header from "./components/Header/Header";
 import Signin from "./pages/Signin";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import CreateListing from "./pages/createListing";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
         </Route>
+        <Route path="/create-listing" element={<CreateListing />}/>
       </Routes>
     </BrowserRouter>
   );
