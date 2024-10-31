@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import PrimaryBtn from "../components/Buttons/PrimaryBtn";
+import SecondaryBtn from "../components/Buttons/SecondaryBtn";
 
 const CreateListing = () => {
   const [name, setName] = useState("");
@@ -14,6 +16,7 @@ const CreateListing = () => {
   const [parkingSpaces, setParkingSpaces] = useState("");
   const [furnished, setFurnished] = useState(false);
   const [offer, setOffer] = useState(false);
+  const [files, setFiles] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
   const [ytVideoUrl, setYtVideoUrl] = useState("");
   const [facilities, setFacilities] = useState([]);
@@ -34,7 +37,7 @@ const CreateListing = () => {
       parkingSpaces,
       furnished,
       offer,
-      imageUrls,
+      files,
       ytVideoUrl,
       facilities,
     });
@@ -231,16 +234,16 @@ const CreateListing = () => {
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Images
           </label>
+          <div className="flex gap-4 w-full">
           <input
             type="file"
             multiple
             accept="image/*"
-            onChange={(e) => {
-              const files = Array.from(e.target.files);
-              setImageUrls(files.map((file) => URL.createObjectURL(file)));
-            }}
-            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
+            onChange={(e) => setFiles(e.target.files)}
+            className="w-3/4 px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
           />
+          <SecondaryBtn style="mt-1 w-1/4">Upload</SecondaryBtn>
+          </div>
         </div>
 
         {/* YouTube Video URL Input */}
@@ -277,12 +280,8 @@ const CreateListing = () => {
         </div>
 
         {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-400"
-        >
-          Create Listing
-        </button>
+        <PrimaryBtn onBtnClick={handleSubmit}>Create Listing</PrimaryBtn>
+          
 
         {/* Link to go back */}
         <div className="text-center">

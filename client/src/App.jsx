@@ -20,8 +20,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
+          <Route path="/create-listing" element={<CreateListing />} />
         </Route>
-        <Route path="/create-listing" element={<CreateListing />}/>
       </Routes>
     </BrowserRouter>
   );

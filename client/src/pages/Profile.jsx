@@ -7,11 +7,12 @@ import ProgressBar from "../components/ProgressBar/ProgressBar";
 import useUpdateProfile from "../hooks/useUpdateProfile";
 import SmallCircleLoader from "../components/Loaders/SmallCircleLoader";
 import useDeleteUser from "../hooks/useDeleteUser";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { user, setUser } = useUserStore();
   console.log(user);
-
+  const navigator = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [file, setFile] = useState(null);
@@ -54,6 +55,10 @@ const Profile = () => {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  function  handleGoToCreateListing() {
+    navigator("/create-listing");
   }
 
 
@@ -191,7 +196,7 @@ const Profile = () => {
           <PrimaryBtn onBtnClick={handleUpdate} disabled={isUpdateDisabled}>
             <p>{isUpdating ? <SmallCircleLoader /> : "Update Profile"}</p>
           </PrimaryBtn>
-          <PrimaryBtn>Create New Listing</PrimaryBtn>
+          <PrimaryBtn onBtnClick={handleGoToCreateListing}>Create New Listing</PrimaryBtn>
         </div>
 
         {/* Secondary Actions */}

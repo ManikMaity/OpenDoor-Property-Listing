@@ -7,6 +7,47 @@ export function checkObjectEmpty(obj) {
     return keys.length === 0;
 }
 
+export function handleMutipleFileUpload(files, setProfileImagesLink, setIsUploadError) {
+    if (files.length <= 0 || files.length > 7) {
+        setIsUploadError({
+            isError : true,
+            message : `${files.length <= 0 ? "No files" : "Max 7 files"} selected`
+        });
+        return;
+    }
+    const storage = getStorage(app);
+    const promises = [];
+    files.forEach(file => {
+        promises.push(storeImage(file, storage, setFilesUploading, setFilesUploaded, setProgress, setProfileImagesLink, setIsUploadError));
+    })
+
+
+}
+
+async function storeImage(file, storage, setFilesUploading, setFilesUploaded, setProgress, setProfileImagesLink, setIsUploadError) {
+    return new Promise((resolve, reject) => {
+        const fileName = new Date().getTime() + file.name;
+        const storageRef = ref(storage, fileName);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on(
+            "state_changed",
+            (error) => {
+                setIsUploadError({
+                    isError : true,
+                    message : error.message
+                })
+                reject(error);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    
+                });
+            }
+        )
+    })
+}
+
 
 export function handleFileUpload(file, setFileUploading, setFileUploaded, setProgress, setProfileImageLink, setIsUploadError) {
     const storage = getStorage(app);
