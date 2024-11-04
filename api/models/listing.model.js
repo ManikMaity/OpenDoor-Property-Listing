@@ -66,6 +66,10 @@ const listingSchema = new Schema({
     facilities : {
         type : [String],
     }
+    , sellType : {
+        type : String,
+        required : true
+    }
 }, { timestamps : true });
 
 const Listing =  mongoose.model("Listing", listingSchema);

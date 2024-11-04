@@ -10,6 +10,7 @@ function PrimaryBtn({
 }) {
   return (
     <button
+        type="button"
         onClick={onBtnClick}
         disabled={disabled}
       className={

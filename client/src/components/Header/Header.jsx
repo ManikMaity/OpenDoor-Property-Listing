@@ -21,7 +21,7 @@ const Header = () => {
   } = useHeader();
 
   return (
-    <nav className="bg-slate-200 dark:bg-gray-800 max-h-16 shadow-md w-full sticky top-0">
+    <nav className="bg-slate-200 z-50 dark:bg-gray-800 max-h-16 shadow-md w-full sticky top-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo Section */}

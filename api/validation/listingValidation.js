@@ -3,10 +3,16 @@ import { z } from "zod";
 const imageSchema = z
   .string()
   .max(200, { message: "The image name must be less than 100 characters" })
-  .refine((value) => /\.(jpg|jpeg|png|gif|webp)$/i.test(value), {
-    message:
-      "The image name must end with one of the following extensions: .jpg, .jpeg, .png, .gif, .webp",
-  });
+  .refine(
+    (value) =>
+      /https:\/\/firebasestorage\.googleapis\.com\/v0\/b\/.*\.(jpg|jpeg|png|gif|webp)\?alt=media&token=.*/i.test(
+        value
+      ),
+    {
+      message:
+        "The image URL must be a valid Firebase Storage link ending in .jpg, .jpeg, .png, .gif, or .webp with an alt=media parameter.",
+    }
+  );
 
 export const listingValidation = z.object({
   name: z
@@ -84,7 +90,7 @@ export const listingValidation = z.object({
   furnished: z.boolean({
     required_error: "Furnished is required",
     invalid_type_error: "Furnished should be a boolean",
-  }),
+  }).default(false),
   offer: z.boolean({
     required_error: "Offer is required",
     invalid_type_error: "Offer should be a boolean",
@@ -95,15 +101,12 @@ export const listingValidation = z.object({
       required_error: "Youtube video link is required",
       invalid_type_error: "Youtube video link should be a string",
     })
-    .refine(
-      (url) =>
-        /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(?:-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|live\/|v\/)?)([\w\-]+)(\S+)?$/.test(
-          url
-        ),
-      { message: "Invalid youtube video link" }
-    )
     .optional(),
   facilities: z
     .array(z.string().max(100, "Facilities should be less than 100 characters"))
     .optional(),
+  sellType : z.enum(["rent", "sale"], {
+    required_error: "Sell type is required",
+    invalid_type_error: "Sell type should be a string",
+  })
 });
