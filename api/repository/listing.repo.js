@@ -9,3 +9,13 @@ export async function createListing(data) {
         throw err;
     }
 }
+
+export const getAllListingsByUserId = async (userId) => {
+    try {
+        const userListings = await Listing.find({userRef: userId});
+        return userListings;
+    }
+    catch (err) {
+        throw err;
+    }
+}

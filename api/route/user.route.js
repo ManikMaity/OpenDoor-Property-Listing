@@ -1,6 +1,7 @@
 import express from "express";
 import { deleteUser, signoutUser, test, update } from "../controllers/user.controller.js";
 import { verifyToken } from "../util/verifyUser.js";
+import { get } from "mongoose";
 const userRouter = express.Router();
 
 userRouter.get("/", test);
