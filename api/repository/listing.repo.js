@@ -19,3 +19,27 @@ export const getAllListingsByUserId = async (userId) => {
         throw err;
     }
 }
+
+export const getListingById = async (listingId) => {
+    try{
+        const listing = await Listing.findById(listingId);
+        return listing;
+    }
+    catch(err){
+        throw {
+            statusCode: 404,
+            message: "Listing not found"
+        }
+    }
+}
+
+
+export const deleteListingById = async (listingId) => {
+    try{
+        const deletedListing = await Listing.findByIdAndDelete(listingId);
+        return deletedListing;
+    }
+    catch(err){
+        throw err;
+    }
+}

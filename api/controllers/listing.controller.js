@@ -1,4 +1,4 @@
-import { createListing, getAllListingsByUserId } from "../repository/listing.repo.js";
+import { createListing, deleteListingById, getAllListingsByUserId, getListingById } from "../repository/listing.repo.js";
 
 export const createListingController = async (req, res) => {
     try{
@@ -53,6 +53,44 @@ export const getUserListings = async (req, res) => {
     }
     catch (err){
         if (err.statusCode){
+            res.status(err.statusCode).json({
+                success: false,
+                message: err.message
+            })
+        }
+        else{
+            res.status(500).json({
+                success: false,
+                message: err.message
+            })
+        }
+    }
+}
+
+
+export const deleteListing = async (req, res) => {
+    try {
+        const listingId = req.params.id;
+        const reqUserId = req.user._id;
+        const listing = await getListingById(listingId);
+        if (listing.userRef.toString() !== reqUserId.toString()){
+            throw {
+                statusCode: 401,
+                message: "Unauthorized User"
+            }
+        }
+        const deletedListing = await deleteListingById(listingId);
+
+        res.status(200).json({
+            success : true,
+            message: "Listing deleted successfully",
+            data: deletedListing
+        })
+
+    }
+
+    catch(err){
+        if(err.statusCode){
             res.status(err.statusCode).json({
                 success: false,
                 message: err.message
