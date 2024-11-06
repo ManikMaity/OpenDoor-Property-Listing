@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { clearFalsyObjValue, deleteImageFromFirebase, handleMutipleFileUpload } from '../utils/utilFunctions';
+import { useNavigate } from 'react-router-dom';
 
 function useCreateListing() {
+
+    const navigator = useNavigate();
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [propertyType, setPropertyType] = useState("apartment");
@@ -115,6 +118,7 @@ function useCreateListing() {
             message: ""
           })
           clearAllFields();
+          navigator(`/listing/${result.data._id}`);
         }
       }
       catch(err){
