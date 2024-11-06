@@ -2,12 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import PrimaryBtn from "../components/Buttons/PrimaryBtn";
 import SecondaryBtn from "../components/Buttons/SecondaryBtn";
 import useUserStore from "../store/userStore";
-import { clearFalsyObjValue, handleFileUpload } from "../utils/utilFunctions";
+import { clearFalsyObjValue, handleFileUpload, reduseTextLength } from "../utils/utilFunctions";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import useUpdateProfile from "../hooks/useUpdateProfile";
 import SmallCircleLoader from "../components/Loaders/SmallCircleLoader";
 import useDeleteUser from "../hooks/useDeleteUser";
 import { useNavigate } from "react-router-dom";
+import useGetFetch from "../hooks/useGetFetch";
+import SmallButton from "../components/Buttons/SmallButton";
 
 const Profile = () => {
   const { user, setUser } = useUserStore();
@@ -57,10 +59,21 @@ const Profile = () => {
     }
   }
 
-  function  handleGoToCreateListing() {
+  function handleGoToCreateListing() {
     navigator("/create-listing");
   }
 
+  const {
+    loading: loadingListing,
+    data: listing,
+    error: listingError,
+    handleDataFech: handleShowUserListings,
+  } = useGetFetch(`/api/listing/user/${user?._id}`);
+
+  useEffect(() => {
+    console.log(listing);
+    console.log(listingError);
+  }, [listing, listingError]);
 
   useEffect(() => {
     if (file) {
@@ -124,7 +137,6 @@ const Profile = () => {
 
         {/* Form Section */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          
           {/* Username Input */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -189,6 +201,11 @@ const Profile = () => {
               😵 Error Deleting Account
             </p>
           )}
+          {listingError.isError && (
+            <p className="text-red-400 text-sm col-span-2">
+              😵 {listingError?.message || "Cant fetch user listings"}
+            </p>
+          )}
         </div>
 
         {/* Action Buttons */}
@@ -196,7 +213,9 @@ const Profile = () => {
           <PrimaryBtn onBtnClick={handleUpdate} disabled={isUpdateDisabled}>
             <p>{isUpdating ? <SmallCircleLoader /> : "Update Profile"}</p>
           </PrimaryBtn>
-          <PrimaryBtn onBtnClick={handleGoToCreateListing}>Create New Listing</PrimaryBtn>
+          <PrimaryBtn onBtnClick={handleGoToCreateListing}>
+            Create New Listing
+          </PrimaryBtn>
         </div>
 
         {/* Secondary Actions */}
@@ -207,13 +226,64 @@ const Profile = () => {
           >
             {isDeleting ? "Deleting" : "Delete Account"}
           </button>
-          <button className="text-red-600 hover:underline" onClick={handleSignOut}>Sign out</button>
+          <button
+            className="text-red-600 hover:underline"
+            onClick={handleSignOut}
+          >
+            Sign out
+          </button>
         </div>
 
         {/* Footer Section */}
         <div className="mt-6 text-center">
-          <SecondaryBtn>Show my listings</SecondaryBtn>
+          <SecondaryBtn onBtnClick={handleShowUserListings}>
+            {loadingListing ? <SmallCircleLoader /> : "Show my listings"}
+          </SecondaryBtn>
         </div>
+
+        {/* Listings Section  */}
+        {listing.length > 0 &&
+        <div className="mt-6">
+          <h2 className="text-lg md:text-xl font-semibold text-white text-center mb-6">My Listings</h2>
+          {listing.map((list) => {
+            return (
+              <div
+                key={list._id}
+                className="p-4 mb-6 rounded-md bg-gray-300 dark:bg-slate-700 bg-opacity-50 dark:text-white grid grid-flow-col grid-cols-4 justify-between items-center"
+              >
+                <div className="h-full md:h-20 object-cover rounded-md overflow-hidden">
+                  <img
+                    className="h-full w-full object-cover"
+                    src={
+                      list.imageUrls[0] ||
+                      "https://placehold.co/200x100?text=OpenDoor"
+                    }
+                    alt=""
+                  />
+                </div>
+                <div className="py-1 px-4 col-span-2">
+                  <p className="">{list.name || "Property"}</p>
+                  <p className="text-xs md:text-sm opacity-70 font-thin">{reduseTextLength(list.description, 50)}</p>
+                </div>
+                <div className="flex flex-col items-end gap-1">
+                  <SmallButton
+                    styleObj={{ backgroundColor: "#3b82f6" }}
+                    style="w-20"
+                  >
+                    Edit
+                  </SmallButton>
+                  <SmallButton
+                    styleObj={{ backgroundColor: "#d43131" }}
+                    style="w-20"
+                  >
+                    Delete
+                  </SmallButton>
+                </div>
+              </div>
+            );
+          })}
+          </div>
+          }
       </div>
     </div>
   );
