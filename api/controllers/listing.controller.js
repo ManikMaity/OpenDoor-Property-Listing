@@ -111,6 +111,12 @@ export const editListing = async (req, res) => {
         const listingId = req.params.id;
         const reqUserId = req.user._id;
         const data = req.body;
+        if (Object.keys(data).length === 0){
+            throw {
+                statusCode: 400,
+                message: "No data provided"
+            }
+        }
         console.log(listingId, reqUserId);
         const listing = await getListingById(listingId);
         if (!listing){
