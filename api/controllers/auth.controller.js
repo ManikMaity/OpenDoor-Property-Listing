@@ -64,7 +64,7 @@ export async function googleSignup(req, res, next) {
     
     const token = jwt.sign({ userId: user._id }, JWT_SECRET);
     const {password, ...restData} = user._doc;
-    res.cookie("access-token", token, {httpOnly : true, maxAge : 10 * 24 * 60 * 60 * 1000})
+    res.cookie("access_token", token, {httpOnly : true, maxAge : 10 * 24 * 60 * 60 * 1000})
     .status(200)
     .json(restData);
 

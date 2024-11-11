@@ -9,6 +9,8 @@ import Signin from "./pages/Signin";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import CreateListing from "./pages/createListing";
 import Listing from "./pages/Listing";
+import UpdateListing from "./pages/UpdateListing";
+import NotFoundPage from "./pages/NotFound";
 
 function App() {
   return (
@@ -22,8 +24,12 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/create-listing" element={<CreateListing />} />
+          <Route path="/update/:id" element={<UpdateListing />} />
         </Route>
-        <Route path="listing/:id" element={<Listing />} />
+        <Route path="listing/:id" element={<listing />} />
+        <Route path="" element={<NotFoundPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+        <Route element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
