@@ -5,14 +5,14 @@ import useFetch from "../../hooks/useFetch";
 
 function MyListingCard({ list, refreshListings }) {
   const { handleDeleteData, loading, data, error } = useFetch(
-    `/api/listing/delete/${list?._id + "jxj"}`
+    `/api/listing/delete/${list._id}`
   );
 
   async function handleDeleteListing() {
     if (!window.confirm("Are you sure you want to delete this listing?"))
       return;
     await handleDeleteData();
-    refreshListings();
+    if (!error.isError) refreshListings();
   }
 
   return (
@@ -32,7 +32,7 @@ function MyListingCard({ list, refreshListings }) {
             src={
               list?.imageUrls[0] || "https://placehold.co/200x100?text=OpenDoor"
             }
-            alt=""
+            alt="Property Image"
           />
         </div>
         <div className="py-1 px-4 col-span-2">
@@ -54,7 +54,9 @@ function MyListingCard({ list, refreshListings }) {
           </SmallButton>
         </div>
       </div>
-      {error.isError && <p className="text-red-500 text-sm opacity-60">😵{error.message}</p>}
+      {error.isError && (
+        <p className="text-red-500 text-sm opacity-60">😵{error.message}</p>
+      )}
     </div>
   );
 }

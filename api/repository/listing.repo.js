@@ -43,3 +43,13 @@ export const deleteListingById = async (listingId) => {
         throw err;
     }
 }
+
+export const updateListingById = async (listingId, data) => {
+    try{
+        const updatedListing = await Listing.findByIdAndUpdate(listingId, data, {new: true});
+        return updatedListing;
+    }
+    catch(err){
+        throw err;
+    }
+}
