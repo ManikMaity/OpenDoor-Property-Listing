@@ -1,5 +1,5 @@
 import express from "express";
-import { createListingController, deleteListing, editListing, getUserListings } from "../controllers/listing.controller.js";
+import { createListingController, deleteListing, editListing, getListing, getUserListings } from "../controllers/listing.controller.js";
 import { verifyToken } from "../util/verifyUser.js";
 import { validate } from "../validation/validator.js";
 import { listingValidation } from "../validation/listingValidation.js";
@@ -14,5 +14,6 @@ listingRouter.post("/create", validate(listingValidation),  verifyToken, createL
 listingRouter.get("/user/:id", verifyToken, getUserListings);
 listingRouter.delete("/delete/:id", verifyToken, deleteListing);
 listingRouter.post("/edit/:id", validate(editListingValidation), verifyToken, editListing);
+listingRouter.get("/data/:id", getListing);
 
 export default listingRouter;
