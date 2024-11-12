@@ -2,8 +2,12 @@ import React from "react";
 import SmallButton from "../Buttons/SmallButton";
 import { reduseTextLength } from "../../utils/utilFunctions";
 import useFetch from "../../hooks/useFetch";
+import { useNavigate } from "react-router-dom";
 
 function MyListingCard({ list, refreshListings }) {
+
+  const navigator = useNavigate();
+  
   const { handleDeleteData, loading, data, error } = useFetch(
     `/api/listing/delete/${list._id}`
   );
@@ -13,6 +17,10 @@ function MyListingCard({ list, refreshListings }) {
       return;
     await handleDeleteData();
     if (!error.isError) refreshListings();
+  }
+
+  const handleEditBtnClick = () => {
+    navigator(`/update/${list._id}`);
   }
 
   return (
@@ -42,7 +50,7 @@ function MyListingCard({ list, refreshListings }) {
           </p>
         </div>
         <div className="flex flex-col items-end gap-1">
-          <SmallButton styleObj={{ backgroundColor: "#3b82f6" }} style="w-20">
+          <SmallButton styleObj={{ backgroundColor: "#3b82f6" }} style="w-20" onBtnClick={handleEditBtnClick}>
             Edit
           </SmallButton>
           <SmallButton
