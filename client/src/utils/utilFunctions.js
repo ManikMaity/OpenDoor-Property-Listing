@@ -147,3 +147,12 @@ export function reduseTextLength(text, maxLength) {
     }
     return text;
 }
+
+export function ytUrlToEmbed(url) {
+
+    if (url.includes("shorts")) {
+        return url.replace("shorts", "embed");
+    }
+    const videoId = url.split("v=")[1];
+    return `https://www.youtube.com/embed/${videoId}`
+}

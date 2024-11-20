@@ -5,9 +5,46 @@ import SmallCircleLoader from "../components/Loaders/SmallCircleLoader";
 import SecondaryBtn from "../components/Buttons/SecondaryBtn";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
+import {
+  FaBed,
+  FaBath,
+  FaCar,
+  FaRulerCombined,
+  FaCouch,
+  FaHouseUser,
+} from "react-icons/fa";
+import { FaHouse } from "react-icons/fa6";
+import { IoLocation } from "react-icons/io5";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { ytUrlToEmbed } from "../utils/utilFunctions";
+
+const dummyData = {
+  _id: "67210b2b3e43e90793be121e",
+  name: "Modern Apartment",
+  description:
+    "A beautiful apartment located in the heart of the city, offering modern amenities and spacious rooms.",
+  propertyType: "Apartment",
+  address: "123 Main Street, Metropolis",
+  regularPrice: 2500000,
+  discountedPrice: 2400000,
+  bathrooms: 2,
+  bedrooms: 3,
+  area: 1200,
+  parkingSpaces: 1,
+  furnished: true,
+  offer: true,
+  imageUrls: [
+    "https://example.com/image1.jpg",
+    "https://example.com/image2.png",
+    "https://example.com/image3.webp",
+  ],
+  ytVideoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  facilities: ["Gym", "Swimming Pool", "Security", "Playground", "Clubhouse"],
+  createdAt: "2024-10-29T16:19:55.187Z",
+  updatedAt: "2024-10-29T16:19:55.187Z",
+};
 
 function Listing() {
   const { id } = useParams();
@@ -48,8 +85,8 @@ function Listing() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-gray-100 dark:bg-gray-900">
-      <div className="w-[95%] mx-auto py-3">
+    <div className="min-h-screen px-[2%] w-full bg-gray-100 dark:bg-gray-900">
+      <div className=" mx-auto py-3">
         <Swiper
           pagination={{
             type: "fraction",
@@ -60,7 +97,7 @@ function Listing() {
         >
           {data?.imageUrls.map((url, index) => (
             <SwiperSlide key={index}>
-              <div className="bg-gray-700 h-64 sm:h-[20rem] md:h-[30rem] w-full">
+              <div className="bg-gray-700 h-64 sm:h-[20rem] md:h-[28rem] w-full">
                 <img
                   className="w-full h-full object-cover"
                   src={url || "https://via.placeholder.com/150"}
@@ -70,6 +107,103 @@ function Listing() {
             </SwiperSlide>
           ))}
         </Swiper>
+      </div>
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+        {/* Container */}
+        <div className="container mx-auto px-4 py-8 space-y-8">
+          {/* Header */}
+          <div className="flex md:flex-row flex-col gap-3 justify-between">
+            <div>
+              <h1 className="text-4xl font-bold">{dummyData.name}</h1>
+              <p className="text-gray-600 mt-2 dark:text-gray-400 flex items-center justify-start gap-2">
+                <IoLocation />
+                {dummyData.address}
+              </p>
+            </div>
+            <div>
+              {dummyData.offer ? (
+                <div className="text-2xl flex flex-col font-bold text-green-500">
+                  ₹{dummyData.discountedPrice.toLocaleString()}
+                  <span className="ml-4 line-through text-gray-500 text-xl">
+                    ₹{dummyData.regularPrice.toLocaleString()}
+                  </span>
+                </div>
+              ) : (
+                <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                  ₹{dummyData.regularPrice.toLocaleString()}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 text-lg gap-3 md:gap-5">
+            <div className="flex items-center gap-3 justify-center flex-wrap rounded-lg border border-gray-600 p-2 md:p-3">
+              <FaBed className="text-2xl text-blue-500" />
+              <span>
+                <strong>Bedrooms:</strong> {dummyData.bedrooms}
+              </span>
+            </div>
+            <div className="flex items-center gap-3 justify-center flex-wrap rounded-lg border border-gray-600 p-2 md:p-3">
+              <FaBath className="text-2xl text-blue-500" />
+              <span>
+                <strong>Bathrooms:</strong> {dummyData.bathrooms}
+              </span>
+            </div>
+            <div className="flex items-center gap-3 justify-center flex-wrap rounded-lg border border-gray-600 p-2 md:p-3">
+              <FaCar className="text-2xl text-blue-500" />
+              <span>
+                <strong>Parking:</strong> {dummyData.parkingSpaces}
+              </span>
+            </div>
+            <div className="flex items-center gap-3 justify-center flex-wrap rounded-lg border border-gray-600 p-2 md:p-3">
+              <FaRulerCombined className="text-2xl   text-blue-500" />
+              <span>
+                <strong>Area:</strong> {dummyData.area} sq ft
+              </span>
+            </div>
+            <div className="flex items-center gap-3 justify-center flex-wrap rounded-lg border border-gray-600 p-2 md:p-3">
+              <FaCouch className="text-2xl text-blue-500" />
+              <span>
+                <strong>Furnished:</strong> {dummyData.furnished ? "Yes" : "No"}
+              </span>
+            </div>
+            <div className="flex items-center gap-3 justify-center flex-wrap rounded-lg border border-gray-600 p-2 md:p-3">
+              <FaHouseUser className="text-2xl text-blue-500" />
+              <strong>Type:</strong> {dummyData.propertyType}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-semibold">About the Property</h2>
+            <p className="text-gray-600 mt-2 dark:text-gray-400">
+              {dummyData.description}
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <h2 className="text-2xl font-semibold mb-4">Facilities</h2>
+              <ul className="flex flex-wrap gap-3 list-none text-gray-600 dark:text-gray-400">
+                {dummyData.facilities.map((facility, index) => (
+                  <li
+                    key={index}
+                    className="bg-blue-500 bg-opacity-30 sm:py-2 sm:px-4 py-1 px-2 rounded-full "
+                  >
+                    {facility}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="grid place-content-center">
+              <h2 className="text-2xl font-semibold mb-4">Video Tour</h2>
+              <iframe
+                src={data?.ytVideoUrl && ytUrlToEmbed(data?.ytVideoUrl)}
+                title="YouTube video player"
+                allowFullScreen
+                className="h-64"
+              ></iframe>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
