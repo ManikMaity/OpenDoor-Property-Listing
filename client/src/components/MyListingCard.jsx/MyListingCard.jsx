@@ -23,6 +23,10 @@ function MyListingCard({ list, refreshListings }) {
     navigator(`/update/${list._id}`);
   }
 
+  const handleViewBtnClick = () => {
+    navigator(`/listing/${list?._id}`);
+  }
+
   return (
     <div className="mb-6">
       <div
@@ -59,6 +63,9 @@ function MyListingCard({ list, refreshListings }) {
             style="w-20"
           >
             Delete
+          </SmallButton>
+          <SmallButton onBtnClick={handleViewBtnClick}>
+            View
           </SmallButton>
         </div>
       </div>

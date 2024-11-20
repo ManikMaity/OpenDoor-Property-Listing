@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useCreateListing from "../hooks/useCreateListing";
 import SmallCircleLoader from "../components/Loaders/SmallCircleLoader";
 import SecondaryBtn from "../components/Buttons/SecondaryBtn";
@@ -8,6 +8,7 @@ import useFetch from "../hooks/useFetch";
 
 function UpdateListing() {
   const { id } = useParams();
+  const navigator = useNavigate();
 
   const {
     name,
@@ -125,6 +126,7 @@ function UpdateListing() {
       return;
     }
     await handlePostData(data);
+    navigator(`/listing/${id}`)
   }
 
   return (

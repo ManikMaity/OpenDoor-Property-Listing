@@ -8,9 +8,9 @@ import Header from "./components/Header/Header";
 import Signin from "./pages/Signin";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import CreateListing from "./pages/createListing";
-import Listing from "./pages/Listing";
 import UpdateListing from "./pages/UpdateListing";
 import NotFoundPage from "./pages/NotFound";
+import Listing from "./pages/Listing";
 
 function App() {
   return (
@@ -20,13 +20,13 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/signin" element={<Signin />} />
+        <Route path="/listing/:id" element={<Listing />} />
         <Route path="/signup" element={<Signup />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/create-listing" element={<CreateListing />} />
           <Route path="/update/:id" element={<UpdateListing />} />
         </Route>
-        <Route path="listing/:id" element={<listing />} />
         <Route path="" element={<NotFoundPage />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route element={<NotFoundPage />} />
