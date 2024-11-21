@@ -5,6 +5,7 @@ import SmallCircleLoader from "../components/Loaders/SmallCircleLoader";
 import SecondaryBtn from "../components/Buttons/SecondaryBtn";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
+import PrimaryBtn from "../components/Buttons/PrimaryBtn";
 import {
   FaBed,
   FaBath,
@@ -19,32 +20,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { ytUrlToEmbed } from "../utils/utilFunctions";
-
-const dummyData = {
-  _id: "67210b2b3e43e90793be121e",
-  name: "Modern Apartment",
-  description:
-    "A beautiful apartment located in the heart of the city, offering modern amenities and spacious rooms.",
-  propertyType: "Apartment",
-  address: "123 Main Street, Metropolis",
-  regularPrice: 2500000,
-  discountedPrice: 2400000,
-  bathrooms: 2,
-  bedrooms: 3,
-  area: 1200,
-  parkingSpaces: 1,
-  furnished: true,
-  offer: true,
-  imageUrls: [
-    "https://example.com/image1.jpg",
-    "https://example.com/image2.png",
-    "https://example.com/image3.webp",
-  ],
-  ytVideoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-  facilities: ["Gym", "Swimming Pool", "Security", "Playground", "Clubhouse"],
-  createdAt: "2024-10-29T16:19:55.187Z",
-  updatedAt: "2024-10-29T16:19:55.187Z",
-};
 
 function Listing() {
   const { id } = useParams();
@@ -61,7 +36,6 @@ function Listing() {
     navigator("/");
   };
 
-  console.log(data);
 
   if (!data) {
     if (error?.isError) {
@@ -81,12 +55,18 @@ function Listing() {
           <SmallCircleLoader big={true} />
         </div>
       );
+    } else {
+      return (
+        <div className="min-h-screen w-full bg-gray-100 grid place-content-center dark:bg-gray-900">
+          <SmallCircleLoader big={true} />
+        </div>
+      );
     }
   }
 
   return (
     <div className="min-h-screen px-[2%] w-full bg-gray-100 dark:bg-gray-900">
-      <div className=" mx-auto py-3">
+      <div className=" mx-auto py-3 relative">
         <Swiper
           pagination={{
             type: "fraction",
@@ -107,30 +87,35 @@ function Listing() {
             </SwiperSlide>
           ))}
         </Swiper>
+        <div className="px-4 md:px-8 shadow-lg shadow-gray-400 text-white font-semibold rounded-md absolute bottom-8 right-5 z-20 py-1 md:py-2 bg-blue-600 inline-block">
+          {data?.sellType?.toLowerCase() == "rent"
+            ? "Available for Rent"
+            : "Available for Sale"}
+        </div>
       </div>
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-        {/* Container */}
         <div className="container mx-auto px-4 py-8 space-y-8">
-          {/* Header */}
           <div className="flex md:flex-row flex-col gap-3 justify-between">
             <div>
-              <h1 className="text-4xl font-bold">{dummyData.name}</h1>
+              <h1 className="text-2xl md:text-4xl font-bold">
+                {data?.name || "Property Name"}
+              </h1>
               <p className="text-gray-600 mt-2 dark:text-gray-400 flex items-center justify-start gap-2">
                 <IoLocation />
-                {dummyData.address}
+                {data?.address || "Please content the seller"}
               </p>
             </div>
             <div>
-              {dummyData.offer ? (
+              {data?.offer && data?.discountedPrice ? (
                 <div className="text-2xl flex flex-col font-bold text-green-500">
-                  ₹{dummyData.discountedPrice.toLocaleString()}
+                  ₹{data?.discountedPrice?.toLocaleString()}
                   <span className="ml-4 line-through text-gray-500 text-xl">
-                    ₹{dummyData.regularPrice.toLocaleString()}
+                    ₹{data?.regularPrice?.toLocaleString()}
                   </span>
                 </div>
               ) : (
                 <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  ₹{dummyData.regularPrice.toLocaleString()}
+                  ₹{data.regularPrice.toLocaleString() || "Unknown"}
                 </div>
               )}
             </div>
@@ -140,67 +125,93 @@ function Listing() {
             <div className="flex items-center gap-3 justify-center flex-wrap rounded-lg border border-gray-600 p-2 md:p-3">
               <FaBed className="text-2xl text-blue-500" />
               <span>
-                <strong>Bedrooms:</strong> {dummyData.bedrooms}
+                <strong>Bedrooms:</strong> {data.bedrooms}
               </span>
             </div>
             <div className="flex items-center gap-3 justify-center flex-wrap rounded-lg border border-gray-600 p-2 md:p-3">
               <FaBath className="text-2xl text-blue-500" />
               <span>
-                <strong>Bathrooms:</strong> {dummyData.bathrooms}
+                <strong>Bathrooms:</strong> {data.bathrooms}
               </span>
             </div>
             <div className="flex items-center gap-3 justify-center flex-wrap rounded-lg border border-gray-600 p-2 md:p-3">
               <FaCar className="text-2xl text-blue-500" />
               <span>
-                <strong>Parking:</strong> {dummyData.parkingSpaces}
+                <strong>Parking:</strong> {data.parkingSpaces}
               </span>
             </div>
             <div className="flex items-center gap-3 justify-center flex-wrap rounded-lg border border-gray-600 p-2 md:p-3">
               <FaRulerCombined className="text-2xl   text-blue-500" />
               <span>
-                <strong>Area:</strong> {dummyData.area} sq ft
+                <strong>Area:</strong> {data.area} sq ft
               </span>
             </div>
             <div className="flex items-center gap-3 justify-center flex-wrap rounded-lg border border-gray-600 p-2 md:p-3">
               <FaCouch className="text-2xl text-blue-500" />
               <span>
-                <strong>Furnished:</strong> {dummyData.furnished ? "Yes" : "No"}
+                <strong>Furnished:</strong> {data.furnished ? "Yes" : "No"}
               </span>
             </div>
             <div className="flex items-center gap-3 justify-center flex-wrap rounded-lg border border-gray-600 p-2 md:p-3">
               <FaHouseUser className="text-2xl text-blue-500" />
-              <strong>Type:</strong> {dummyData.propertyType}
+              <strong>Type:</strong> {data.propertyType}
             </div>
           </div>
 
           <div>
             <h2 className="text-2xl font-semibold">About the Property</h2>
             <p className="text-gray-600 mt-2 dark:text-gray-400">
-              {dummyData.description}
+              {data.description || "Description not available"}
             </p>
           </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div>
-              <h2 className="text-2xl font-semibold mb-4">Facilities</h2>
-              <ul className="flex flex-wrap gap-3 list-none text-gray-600 dark:text-gray-400">
-                {dummyData.facilities.map((facility, index) => (
-                  <li
-                    key={index}
-                    className="bg-blue-500 bg-opacity-30 sm:py-2 sm:px-4 py-1 px-2 rounded-full "
-                  >
-                    {facility}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="grid place-content-center">
-              <h2 className="text-2xl font-semibold mb-4">Video Tour</h2>
-              <iframe
-                src={data?.ytVideoUrl && ytUrlToEmbed(data?.ytVideoUrl)}
-                title="YouTube video player"
-                allowFullScreen
-                className="h-64"
-              ></iframe>
+            {data?.facilities && (
+              <div>
+                <h2 className="text-2xl font-semibold mb-4">Facilities</h2>
+                <ul className="flex flex-wrap gap-3 list-none text-gray-600 dark:text-gray-400">
+                  {data?.facilities.map((facility, index) => (
+                    <li
+                      key={index}
+                      className="bg-blue-500 bg-opacity-30 sm:py-2 sm:px-4 py-1 px-2 rounded-full "
+                    >
+                      {facility}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {data?.ytVideoUrl && (
+              <div className="grid">
+                <h2 className="text-2xl font-semibold mb-4">Video Tour</h2>
+                <iframe
+                  src={data?.ytVideoUrl && ytUrlToEmbed(data?.ytVideoUrl)}
+                  title="YouTube video player"
+                  allowFullScreen
+                  className="h-64 w-full"
+                ></iframe>
+              </div>
+            )}
+
+            <div className="p-3 rounded-md border border-gray-600 w-full max-w-lg">
+              <h2 className="text-2xl font-semibold">Contect</h2>
+              <div className="">
+                <p className="text-black mt-2 dark:text-white">
+                  Owner:{" "}
+                  <span className="font-semibold">
+                    {data?.userRef?.username || "Unknown"}
+                  </span>
+                </p>
+                <a
+                  className="text-blue-500 underline"
+                  href={`mailto:${data?.userRef?.email}?subject=${
+                    "Listing Id: " + data?._id
+                  }`}
+                  target="_blank"
+                >
+                  Mail Owner
+                </a>
+              </div>
             </div>
           </div>
         </div>

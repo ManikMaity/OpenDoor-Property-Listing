@@ -153,6 +153,9 @@ export function ytUrlToEmbed(url) {
     if (url.includes("shorts")) {
         return url.replace("shorts", "embed");
     }
+    if (url.includes("youtu.be")) {
+        return url.replace("youtu.be", "www.youtube.com/embed");
+    }
     const videoId = url.split("v=")[1];
     return `https://www.youtube.com/embed/${videoId}`
 }
