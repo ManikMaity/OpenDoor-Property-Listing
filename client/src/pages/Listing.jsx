@@ -96,7 +96,7 @@ function Listing() {
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
         <div className="container mx-auto px-4 py-8 space-y-8">
           <div className="flex md:flex-row flex-col gap-3 justify-between">
-            <div>
+            <div className="max-w-3xl">
               <h1 className="text-2xl md:text-4xl font-bold">
                 {data?.name || "Property Name"}
               </h1>
@@ -108,14 +108,14 @@ function Listing() {
             <div>
               {data?.offer && data?.discountedPrice ? (
                 <div className="text-2xl flex flex-col font-bold text-green-500">
-                  ₹{data?.discountedPrice?.toLocaleString()}
+                  ₹{`${data?.sellType?.toLowerCase() == "rent" ? data?.discountedPrice?.toLocaleString() + " /month" : data?.discountedPrice?.toLocaleString()}`}
                   <span className="ml-4 line-through text-gray-500 text-xl">
-                    ₹{data?.regularPrice?.toLocaleString()}
+                    ₹{`${data?.sellType?.toLowerCase() == "rent" ? data?.regularPrice?.toLocaleString() + " /month" : data?.regularPrice?.toLocaleString()}`}
                   </span>
                 </div>
               ) : (
                 <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  ₹{data.regularPrice.toLocaleString() || "Unknown"}
+                  ₹{`${data?.sellType?.toLowerCase() == "rent" ? data?.regularPrice?.toLocaleString() + " /month" : data?.regularPrice?.toLocaleString()}`}
                 </div>
               )}
             </div>
