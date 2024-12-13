@@ -1,3 +1,4 @@
+import { createLike, getLikesByListingId } from "../repository/like.repo.js";
 import {
   createListing,
   deleteListingById,
@@ -169,7 +170,6 @@ export const getListing = async (req, res) => {
   }
 };
 
-
 export const searchListing = (req, res) => {
   try {
     const search = req.query.search || "";
@@ -211,4 +211,71 @@ export const searchListing = (req, res) => {
     }
   }
   
+}
+
+export const getListingLikesController = async (req, res) => {
+  try {
+    const listingId = req.params.id;
+    const listing = await getListingById(listingId);
+    if (!listing) {
+      throw {
+        statusCode: 404,
+        message: "Listing not found",
+      };
+    }
+    const likes = await getLikesByListingId(listingId);
+    res.status(200).json({
+      success: true,
+      message: "Listing likes fetched successfully",
+      data: likes,
+    });
+    
+  }
+  catch (err) {
+    if (err.statusCode) {
+      res.status(err.statusCode).json({
+        success: false,
+        message: err.message,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
+}
+
+export const createListingLikeController = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const listingId = req.body.listing;
+    const listing = await getListingById(listingId);
+    if (!listing) {
+      throw {
+        statusCode: 404,
+        message: "Listing not found",
+      };
+    }
+
+    const like = await createLike({user : userId, ...req.body});
+    res.status(200).json({
+      success: true,
+      message: "Listing like created successfully",
+      data: like,
+    });
+  }
+  catch (err) {
+    if (err.statusCode) {
+      res.status(err.statusCode).json({
+        success: false,
+        message: err.message,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
 }

@@ -16,7 +16,7 @@ const likeSchema = new Schema({
         ref : "Listing",
         required : true
     }
-})
+}, {timestamps : true});
 
 
 const LikeModel = model("Like", likeSchema);

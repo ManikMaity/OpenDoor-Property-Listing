@@ -11,11 +11,11 @@ commentRouter.get("/", (req, res) => {
         message : "Router is working."
     })
 })
-commentRouter.get("/:id", verifyToken, getListingCommentsController); // get comments by listing
-commentRouter.post("/", verifyToken,validate(createCommentSehma), createCommentController); // create a comment
-commentRouter.delete("/:id", verifyToken, deleteCommentController); // delete a comment
-commentRouter.put("/:id", verifyToken, updateCommentController); // update a comment
-commentRouter.get("/replies/:id", verifyToken, getRepliesOfCommnetController); // get replies by comment
-commentRouter.post("/reply/:id", verifyToken, validate(createReplySchema), createReplyController); // create a reply
+commentRouter.get("/:id", verifyToken, getListingCommentsController); 
+commentRouter.post("/", verifyToken,validate(createCommentSehma), createCommentController);
+commentRouter.delete("/:id", verifyToken, deleteCommentController);
+commentRouter.put("/:id", verifyToken, updateCommentController);
+commentRouter.get("/replies/:id", verifyToken, getRepliesOfCommnetController); 
+commentRouter.post("/reply/:id", verifyToken, validate(createReplySchema), createReplyController); 
 
 export default commentRouter;

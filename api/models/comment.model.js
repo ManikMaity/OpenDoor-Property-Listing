@@ -25,7 +25,7 @@ const commentShema = new Schema({
         ref : "Listing",
         required : true
     }
-})
+}, {timestamps : true});
 
 
 const CommentModel = model("Comment", commentShema);
