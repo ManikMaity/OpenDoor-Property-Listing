@@ -168,3 +168,47 @@ export const getListing = async (req, res) => {
     }
   }
 };
+
+
+export const searchListing = (req, res) => {
+  try {
+    const search = req.query.search || "";
+    const limit = req.query.limit || 10;
+    const page = req.query.page || 1;
+    const offer = req.query.offer || undefined;
+
+    if (offer === "false" || offer === undefined) {
+      offer = { $in : [false, true] };
+    }
+
+    const furnished = req.query.furnished || undefined;
+
+    if (furnished === "false" || furnished === undefined) {
+      furnished = { $in : [false, true] };
+    }
+
+    const parkingSpaces = req.query.parkingSpaces || undefined;
+
+    if (parkingSpaces === "false" || parkingSpaces === undefined) {
+      parkingSpaces = { $in : [false, true] };
+    }
+
+    const type = req.query.type || undefined;
+
+
+
+  } catch (err) {
+    if (err.statusCode) {
+      res.status(err.statusCode).json({
+        success: false,
+        message: err.message,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
+  
+}

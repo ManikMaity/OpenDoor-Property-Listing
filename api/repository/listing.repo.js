@@ -53,3 +53,12 @@ export const updateListingById = async (listingId, data) => {
         throw err;
     }
 }
+
+export const getListingsByQuery = async (query) => {
+    try{
+        const listings = Listing.find({$or: [{title: {$regex : query, $options: "i"}}, {description: {$regex : query, $options: "i"}}]}).populate("userRef", "email username");
+    }
+    catch(err){
+        throw err;
+    }
+}
