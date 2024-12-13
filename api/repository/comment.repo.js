@@ -1,7 +1,21 @@
 import CommentModel from "../models/comment.model.js";
+import Listing from "../models/listing.model.js";
 
 export const createComment = async (data) => {
+    const listing = await Listing.findById(data.listing);
+    if (!listing){
+        throw {
+            statusCode: 404,
+            message : "Listing not found"
+        }
+    };
     const comment = await CommentModel.create(data);
+    return comment;
+}
+
+export const createCommentReply = async (commentId, data) => {
+    const comment = await CommentModel.create(data);
+    await CommentModel.findByIdAndUpdate(commentId, { $push: {replies : comment._id}});
     return comment;
 }
 
@@ -9,7 +23,6 @@ export const getCommentsByListingId = async (listingId) => {
     const comments = await CommentModel.find({listing: listingId}).populate("user", "email username");
     return comments;
 }
-
 
 export const deleteCommentById = async (commentId, userId) => {
     const comment = await CommentModel.findById(commentId);
@@ -48,8 +61,8 @@ export const updateCommentById = async (commentId, content, userId) => {
         }
     }
 
-    await comment.updateOne({content : content});
-    return comment;
+    const updatedComment = await CommentModel.findByIdAndUpdate(commentId, {content}, {new: true});
+    return updatedComment;
 };
 
 export const getCommentReplyById = async (commentId) => {
