@@ -22,6 +22,7 @@ import "swiper/css/navigation";
 import { ytUrlToEmbed } from "../utils/utilFunctions";
 import CreateComment from "../components/Comments/CreateComment";
 import AllComments from "../components/Comments/AllComments";
+import Reactions from "../components/Reaction/Reactions";
 
 function Listing() {
   const { id } = useParams();
@@ -95,6 +96,7 @@ function Listing() {
         </div>
       </div>
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+            <Reactions/>
         <div className="container mx-auto px-4 py-8 space-y-8">
           <div className="flex md:flex-row flex-col gap-3 justify-between">
             <div className="max-w-3xl">
