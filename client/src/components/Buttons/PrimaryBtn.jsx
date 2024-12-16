@@ -1,17 +1,15 @@
-import React from "react";
 
 function PrimaryBtn({
   styleObj = {},
   style = "",
-  onBtnClick = () => {
-    console.log("Working");
-  },
+  onBtnClick = null,
   disabled = false,
-  children
+  children,
+  type = "button"
 }) {
   return (
     <button
-        type="button"
+        type={type}
         onClick={onBtnClick}
         disabled={disabled}
         style={styleObj}

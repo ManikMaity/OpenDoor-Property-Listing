@@ -239,9 +239,10 @@ const Profile = () => {
         </div>
 
         {/* Listings Section  */}
-        {(listing && listing.length > 0 )&&
+        {listing &&
         <div className="mt-6">
-          <h2 className="text-lg md:text-xl font-semibold text-white text-center mb-6">My Listings</h2>
+          <h2 className="text-lg md:text-xl font-semibold dark:text-white text-center mb-6">{listing.length > 0 ? "My Listings" : "No Listings Found"}</h2>
+          
           {listing.map((list) => <MyListingCard key={list?._id} list={list} refreshListings={handleShowUserListings}/>)}
           </div>
           }

@@ -60,7 +60,6 @@ export const updateCommentById = async (commentId, content, userId) => {
             message : "You are not authorized to update this comment"
         }
     }
-
     const updatedComment = await CommentModel.findByIdAndUpdate(commentId, {content}, {new: true});
     return updatedComment;
 };

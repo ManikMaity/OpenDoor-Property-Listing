@@ -20,6 +20,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { ytUrlToEmbed } from "../utils/utilFunctions";
+import CreateComment from "../components/Comments/CreateComment";
+import AllComments from "../components/Comments/AllComments";
 
 function Listing() {
   const { id } = useParams();
@@ -35,7 +37,6 @@ function Listing() {
   const handleGoHome = () => {
     navigator("/");
   };
-
 
   if (!data) {
     if (error?.isError) {
@@ -108,14 +109,29 @@ function Listing() {
             <div>
               {data?.offer && data?.discountedPrice ? (
                 <div className="text-2xl flex flex-col font-bold text-green-500">
-                  ₹{`${data?.sellType?.toLowerCase() == "rent" ? data?.discountedPrice?.toLocaleString() + " /month" : data?.discountedPrice?.toLocaleString()}`}
+                  ₹
+                  {`${
+                    data?.sellType?.toLowerCase() == "rent"
+                      ? data?.discountedPrice?.toLocaleString() + " /month"
+                      : data?.discountedPrice?.toLocaleString()
+                  }`}
                   <span className="ml-4 line-through text-gray-500 text-xl">
-                    ₹{`${data?.sellType?.toLowerCase() == "rent" ? data?.regularPrice?.toLocaleString() + " /month" : data?.regularPrice?.toLocaleString()}`}
+                    ₹
+                    {`${
+                      data?.sellType?.toLowerCase() == "rent"
+                        ? data?.regularPrice?.toLocaleString() + " /month"
+                        : data?.regularPrice?.toLocaleString()
+                    }`}
                   </span>
                 </div>
               ) : (
                 <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  ₹{`${data?.sellType?.toLowerCase() == "rent" ? data?.regularPrice?.toLocaleString() + " /month" : data?.regularPrice?.toLocaleString()}`}
+                  ₹
+                  {`${
+                    data?.sellType?.toLowerCase() == "rent"
+                      ? data?.regularPrice?.toLocaleString() + " /month"
+                      : data?.regularPrice?.toLocaleString()
+                  }`}
                 </div>
               )}
             </div>
@@ -213,6 +229,11 @@ function Listing() {
                 </a>
               </div>
             </div>
+          </div>
+          <div className="w-full min-h-10">
+            <h2 className="text-2xl font-semibold mb-2">Comments</h2>
+            <CreateComment listingId={id}/>
+            <AllComments/>
           </div>
         </div>
       </div>
