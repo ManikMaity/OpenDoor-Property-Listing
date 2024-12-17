@@ -20,7 +20,7 @@ export const createCommentReply = async (commentId, data) => {
 }
 
 export const getCommentsByListingId = async (listingId) => {
-    const comments = await CommentModel.find({listing: listingId}).populate("user", "email username");
+    const comments = await CommentModel.find({listing: listingId}).sort({createdAt: -1}).populate("user", "email username");
     return comments;
 }
 
@@ -65,13 +65,6 @@ export const updateCommentById = async (commentId, content, userId) => {
 };
 
 export const getCommentReplyById = async (commentId) => {
-    const comment = CommentModel.findById(commentId).populate({
-        path: "replies",
-        populate: [
-            { path: "user", select: "name email" },
-            { path: "replies" } 
-        ]
-    })
-
+    const comment = CommentModel.findById(commentId).populate("user", "email username").populate("replies").populate({path: "replies", populate: {path: "user", select: "email username"}});
     return comment;
 };
