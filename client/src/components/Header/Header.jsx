@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import userImage from "../../assets/user.jpg";
 import { checkObjectEmpty } from "../../utils/utilFunctions";
 import useHeader from "../../hooks/useHeader";
+import useSignout from "../../hooks/useSignout";
 
 const Header = () => {
 
@@ -19,6 +20,7 @@ const Header = () => {
     user,
     resetUser
   } = useHeader();
+  const {handleSignOut} = useSignout();
 
   return (
     <nav className="bg-slate-200 z-50 dark:bg-gray-800 max-h-16 shadow-md w-full sticky top-0">
@@ -75,7 +77,7 @@ const Header = () => {
                     <Link to={"/profile"} className="px-2 grid place-items-center py-1 cursor-pointer  rounded-lg w-full dark:hover:bg-slate-600 hover:bg-slate-200">
                       Profile
                     </Link>
-                    <a onClick={() => resetUser()} className="px-2 grid place-items-center py-1 cursor-pointer  rounded-lg w-full hover:bg-opacity-50 bg-red-400">
+                    <a onClick={async () => await handleSignOut()} className="px-2 grid place-items-center py-1 cursor-pointer  rounded-lg w-full hover:bg-opacity-50 bg-red-400">
                       Sign Out
                     </a>
                   </div>

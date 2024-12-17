@@ -159,3 +159,30 @@ export function ytUrlToEmbed(url) {
     const videoId = url.split("v=")[1];
     return `https://www.youtube.com/embed/${videoId}`
 }
+
+export function timeAgo(dateString) {
+    const units = [
+        { name: "year", seconds: 31536000 },
+        { name: "month", seconds: 2592000 },
+        { name: "week", seconds: 604800 },
+        { name: "day", seconds: 86400 },
+        { name: "hour", seconds: 3600 },
+        { name: "minute", seconds: 60 },
+        { name: "second", seconds: 1 }
+    ];
+
+    const now = new Date();
+    const givenDate = new Date(dateString);
+    const elapsedSeconds = Math.floor((now - givenDate) / 1000);
+
+    if (elapsedSeconds < 0) return "In the future";
+
+    for (const unit of units) {
+        const count = Math.floor(elapsedSeconds / unit.seconds);
+        if (count > 0) {
+            return `${count} ${unit.name}${count > 1 ? "s" : ""} ago`;
+        }
+    }
+
+    return "Just now";
+}

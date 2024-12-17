@@ -8,7 +8,7 @@ function useFetch(url) {
     message: "",
   });
 
-  async function handleDeleteData() {
+  async function handleDeleteData(onSuccess = () => {}, onError = () => {}) {
     try {
       setLoading(true);
       const response = await fetch(url, {
@@ -22,11 +22,13 @@ function useFetch(url) {
           isError: false,
           message: "",
         });
+        await onSuccess();
       } else {
         setError({
           isError: true,
           message: result.message,
         });
+        await onError();
       }
     } catch (err) {
       console.log(err);
@@ -34,6 +36,7 @@ function useFetch(url) {
         isError: true,
         message: err.message,
       });
+      await onError();
     } finally {
       setLoading(false);
     }
@@ -41,8 +44,8 @@ function useFetch(url) {
 
   async function handlePostData(
     data,
-    onSuccess = () => {}, 
-    onError = () => {} 
+    onSuccess = () => {},
+    onError = () => {}
   ) {
     try {
       setLoading(true);
@@ -79,7 +82,7 @@ function useFetch(url) {
     }
   }
 
-  async function handleDataFech() {
+  async function handleDataFech(onSuccess = () => {}, onError = () => {}) {
     try {
       setLoading(true);
       const response = await fetch(url);
@@ -91,11 +94,13 @@ function useFetch(url) {
           isError: false,
           message: "",
         });
+        await onSuccess(result.data);
       } else {
         setError({
           isError: true,
           message: result.message,
         });
+        await onError(result.message);
       }
     } catch (err) {
       console.log(err);
@@ -103,6 +108,7 @@ function useFetch(url) {
         isError: true,
         message: err.message,
       });
+      await onError(err.message);
     } finally {
       setLoading(false);
     }

@@ -233,9 +233,7 @@ function Listing() {
             </div>
           </div>
           <div className="w-full min-h-10">
-            <h2 className="text-2xl font-semibold mb-2">Comments</h2>
-            <CreateComment listingId={id}/>
-            <AllComments/>
+            <AllComments listingId={id}/>
           </div>
         </div>
       </div>

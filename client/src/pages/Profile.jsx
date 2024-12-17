@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import SmallButton from "../components/Buttons/SmallButton";
 import MyListingCard from "../components/MyListingCard.jsx/MyListingCard";
+import useSignout from "../hooks/useSignout";
 
 const Profile = () => {
   const { user, setUser } = useUserStore();
@@ -41,24 +42,7 @@ const Profile = () => {
     useDeleteUser(user, setUser);
 
   // signout
-  async function handleSignOut() {
-    try {
-      const sure = confirm("Are you sure you want to sign out?");
-      if (!sure) return;
-      const response = await fetch("/api/user/signout", {
-        method: "GET",
-        credentials: "include",
-      });
-      const result = await response.json();
-      console.log(result);
-      if (result.success === true) {
-        setUser({}); // clear user data from store
-        localStorage.removeItem("user"); // clear user data from local storage
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  const {handleSignOut} = useSignout();
 
   function handleGoToCreateListing() {
     navigator("/create-listing");

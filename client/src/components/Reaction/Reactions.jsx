@@ -15,7 +15,7 @@ function Reactions() {
   };
 
   return (
-      <div className="flex justify-end space-x-4">
+      <div className="flex justify-center md:justify-end space-x-4">
         {Object.entries(reactions).map(([key, { emoji }]) => (
           <button
             key={key}

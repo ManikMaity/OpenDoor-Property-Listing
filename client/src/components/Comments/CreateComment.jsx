@@ -3,7 +3,7 @@ import PrimaryBtn from "../Buttons/PrimaryBtn";
 import useFetch from "../../hooks/useFetch";
 import SmallCircleLoader from "../Loaders/SmallCircleLoader";
 
-function CreateComment({listingId}) {
+function CreateComment({listingId, refetch}) {
 
     const [commentText, setCommentText] = useState("");
     const {handlePostData, loading, error} = useFetch("/api/comment");
@@ -16,6 +16,7 @@ function CreateComment({listingId}) {
         },
         () => {
             setCommentText("");
+            refetch();
         }
         
     )
@@ -26,12 +27,12 @@ function CreateComment({listingId}) {
     <form onSubmit={onCommentSubmitfn} className="flex flex-col md:flex-row gap-2 justify-between">
       <input
         type="text"
-        className="w-full md:w-[90%] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
+        className="w-full md:w-[85%] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
         placeholder="Type your comment here..."
         value={commentText}
         onChange={(e) => setCommentText(e.target.value)}
       />
-      <div className="w-full md:w-[9%]">
+      <div className="w-full md:w-[15%]">
       <PrimaryBtn type="Submit" disabled={loading}>{loading ? <SmallCircleLoader/> : "Comment"}</PrimaryBtn>
       </div>
     </form>
