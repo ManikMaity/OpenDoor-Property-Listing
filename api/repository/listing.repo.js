@@ -22,6 +22,19 @@ export const getAllListingsByUserId = async (userId) => {
 
 export const getListingById = async (listingId) => {
     try{
+        const listing = await Listing.findById(listingId);
+        return listing;
+    }
+    catch(err){
+        throw {
+            statusCode: 404,
+            message: "Listing not found"
+        }
+    }
+}
+
+export const getDetailedListingById = async (listingId) => {
+    try{
         const listing = await Listing.findById(listingId).populate("userRef", "email username");
         return listing;
     }

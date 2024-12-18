@@ -3,6 +3,7 @@ import {
   createListing,
   deleteListingById,
   getAllListingsByUserId,
+  getDetailedListingById,
   getListingById,
   updateListingById,
 } from "../repository/listing.repo.js";
@@ -71,6 +72,7 @@ export const deleteListing = async (req, res) => {
     const listingId = req.params.id;
     const reqUserId = req.user._id;
     const listing = await getListingById(listingId);
+    console.log(listing.userRef, reqUserId);
     if (listing.userRef.toString() !== reqUserId.toString()) {
       throw {
         statusCode: 401,
@@ -148,7 +150,7 @@ export const editListing = async (req, res) => {
 export const getListing = async (req, res) => {
   try {
     const listingId = req.params.id;
-    const listing = await getListingById(listingId);
+    const listing = await getDetailedListingById(listingId);
       res.status(200).json({
         success: true,
         message: "Listing data fetched successfully",
