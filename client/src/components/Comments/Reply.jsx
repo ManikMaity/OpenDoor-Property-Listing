@@ -12,6 +12,8 @@ const replyObj = {
   }
 
 function Reply({ replyObjValue = replyObj }) {
+ 
+  // TODO - REply Delete
 
   const [reply, setReply] = useState(replyObjValue);
   const handleReplyDelete =() => {
@@ -22,7 +24,7 @@ function Reply({ replyObjValue = replyObj }) {
   return (
     <div
       key={reply?._id}
-      className="flex items-start space-x-4 ml-4 md:ml-6 bg-slate-700 p-3 rounded-lg"
+      className="flex items-start space-x-4 ml-4 md:ml-6 bg-gray-200 dark:bg-slate-700 p-3 rounded-lg border border-gray-400"
     >
       <div>
         <div className="flex items-center gap-2 justify-between">

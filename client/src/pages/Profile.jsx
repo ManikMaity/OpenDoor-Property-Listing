@@ -217,7 +217,7 @@ const Profile = () => {
 
         {/* Footer Section */}
         <div className="mt-6 text-center">
-          <SecondaryBtn onBtnClick={handleShowUserListings}>
+          <SecondaryBtn onBtnClick={() => handleShowUserListings()}>
             {loadingListing ? <SmallCircleLoader /> : "Show my listings"}
           </SecondaryBtn>
         </div>
@@ -227,7 +227,7 @@ const Profile = () => {
         <div className="mt-6">
           <h2 className="text-lg md:text-xl font-semibold dark:text-white text-center mb-6">{listing.length > 0 ? "My Listings" : "No Listings Found"}</h2>
           
-          {listing.map((list) => <MyListingCard key={list?._id} list={list} refreshListings={handleShowUserListings}/>)}
+          {listing.map((list) => <MyListingCard key={list?._id} list={list} refreshListings={async () => await handleShowUserListings()}/>)}
           </div>
           }
       </div>

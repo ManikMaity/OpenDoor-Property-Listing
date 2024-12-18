@@ -8,7 +8,7 @@ function useFetch(url) {
     message: "",
   });
 
-  async function handleDeleteData(onSuccess = () => {}, onError = () => {}) {
+  async function handleDeleteData(onSuccess = async () => {}, onError = async () => {}) {
     try {
       setLoading(true);
       const response = await fetch(url, {
@@ -82,7 +82,7 @@ function useFetch(url) {
     }
   }
 
-  async function handleDataFech(onSuccess = () => {}, onError = () => {}) {
+  async function handleDataFech(onSuccess = async () => {}, onError = async () => {}) {
     try {
       setLoading(true);
       const response = await fetch(url);
