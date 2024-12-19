@@ -84,7 +84,7 @@ function CommentCard({ comment = commentObj, refetch }) {
         <div className="mt-4 space-y-3 text-gray-700 dark:text-white">
           {/* replies goes here */}
           {commentData?.replies.map((reply) => (
-            <Reply key={reply._id} replyObjValue={reply} />
+            <Reply key={reply._id} replyObjValue={reply} refetch={handleReplyClick} />
           ))}
         </div>
       )}
