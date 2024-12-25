@@ -15,6 +15,8 @@ const replyObj = {
 
 function Reply({ replyObjValue = replyObj, refetch }) {
 
+  // On reply delete pop the id from paremt component in backend 
+
   const [reply, setReply] = useState(replyObjValue);
 
   const [showReplyInput, setShowReplyInput] = useState(false);
