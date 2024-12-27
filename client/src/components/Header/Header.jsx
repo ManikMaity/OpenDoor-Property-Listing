@@ -1,13 +1,22 @@
-import {  } from "react";
+import { useState } from "react";
 import { FiSun, FiMoon, FiMenu } from "react-icons/fi";
-import { FaUserCircle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaSearch, FaUserCircle } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 import userImage from "../../assets/user.jpg";
 import { checkObjectEmpty } from "../../utils/utilFunctions";
 import useHeader from "../../hooks/useHeader";
 import useSignout from "../../hooks/useSignout";
+import PrimaryBtn from "../Buttons/PrimaryBtn";
 
 const Header = () => {
+
+  const [searchText, setSearchText] = useState("");
+  const navigate = useNavigate();
+  function handleSearchSubmit (e) {
+    e.preventDefault();
+    if (searchText.trim() === "") return;
+    navigate(`/search/${searchText}`)
+  }
 
  
   const {
@@ -23,22 +32,24 @@ const Header = () => {
   const {handleSignOut} = useSignout();
 
   return (
-    <nav className="bg-slate-200 z-50 dark:bg-gray-800 max-h-16 shadow-md w-full sticky top-0">
+    <nav className="bg-slate-200 z-50 dark:bg-gray-800 h-16 shadow-md w-full sticky top-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo Section */}
           <Link to={"/"} className="flex-shrink-0 text-2xl font-bold text-gray-900 dark:text-white">
             OpenDoor
           </Link>
-
-          {/* Search Box */}
-          <div className="block w-full max-w-md mx-6">
+          
+          <form onSubmit={handleSearchSubmit} className="w-full max-w-md mx-6 flex rounded-md overflow-hidden">
             <input
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               type="text"
               placeholder="Search properties..."
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-[70%] px-4 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-          </div>
+            <PrimaryBtn type="submit" styleObj={{ width: "30%", borderRadius : "0", }} ><FaSearch/></PrimaryBtn>
+          </form>
 
           {/* Desktop Menu */}
           <div className="hidden relative md:flex items-center space-x-6">

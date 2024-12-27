@@ -11,6 +11,7 @@ import CreateListing from "./pages/createListing";
 import UpdateListing from "./pages/UpdateListing";
 import NotFoundPage from "./pages/NotFound";
 import Listing from "./pages/Listing";
+import Search from "./pages/Search";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/listing/:id" element={<Listing />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/search/:searchText" element={<Search />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/create-listing" element={<CreateListing />} />
