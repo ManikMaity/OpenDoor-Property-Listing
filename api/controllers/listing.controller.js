@@ -151,12 +151,11 @@ export const getListing = async (req, res) => {
   try {
     const listingId = req.params.id;
     const listing = await getDetailedListingById(listingId);
-      res.status(200).json({
-        success: true,
-        message: "Listing data fetched successfully",
-        data: listing,
-      });
-    
+    res.status(200).json({
+      success: true,
+      message: "Listing data fetched successfully",
+      data: listing,
+    });
   } catch (err) {
     if (err.statusCode) {
       res.status(err.statusCode).json({
@@ -180,25 +179,22 @@ export const searchListing = (req, res) => {
     const offer = req.query.offer || undefined;
 
     if (offer === "false" || offer === undefined) {
-      offer = { $in : [false, true] };
+      offer = { $in: [false, true] };
     }
 
     const furnished = req.query.furnished || undefined;
 
     if (furnished === "false" || furnished === undefined) {
-      furnished = { $in : [false, true] };
+      furnished = { $in: [false, true] };
     }
 
     const parkingSpaces = req.query.parkingSpaces || undefined;
 
     if (parkingSpaces === "false" || parkingSpaces === undefined) {
-      parkingSpaces = { $in : [false, true] };
+      parkingSpaces = { $in: [false, true] };
     }
 
     const type = req.query.type || undefined;
-
-
-
   } catch (err) {
     if (err.statusCode) {
       res.status(err.statusCode).json({
@@ -212,8 +208,7 @@ export const searchListing = (req, res) => {
       });
     }
   }
-  
-}
+};
 
 export const getListingLikesController = async (req, res) => {
   try {
@@ -226,14 +221,28 @@ export const getListingLikesController = async (req, res) => {
       };
     }
     const likes = await getLikesByListingId(listingId);
+
+    const likesCount = {
+      like: 0,
+      dislike: 0,
+      engry: 0,
+      funny: 0,
+      wow: 0,
+    };
+
+    likes.forEach(like => {
+      likesCount[like?.likeType] ++;
+    })
+
     res.status(200).json({
       success: true,
       message: "Listing likes fetched successfully",
-      data: likes,
+      data: {
+        likesCount,
+        likes
+      },
     });
-    
-  }
-  catch (err) {
+  } catch (err) {
     if (err.statusCode) {
       res.status(err.statusCode).json({
         success: false,
@@ -246,7 +255,7 @@ export const getListingLikesController = async (req, res) => {
       });
     }
   }
-}
+};
 
 export const createListingLikeController = async (req, res) => {
   try {
@@ -260,14 +269,13 @@ export const createListingLikeController = async (req, res) => {
       };
     }
 
-    const like = await createLike({user : userId, ...req.body});
+    const like = await createLike({ user: userId, ...req.body });
     res.status(200).json({
       success: true,
       message: "Listing like created successfully",
       data: like,
     });
-  }
-  catch (err) {
+  } catch (err) {
     if (err.statusCode) {
       res.status(err.statusCode).json({
         success: false,
@@ -280,4 +288,4 @@ export const createListingLikeController = async (req, res) => {
       });
     }
   }
-}
+};
